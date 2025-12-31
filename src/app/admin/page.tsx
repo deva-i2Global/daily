@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div className="h-dvh w-dvw grid place-content-center">
-      <form className="grid gap-3" method="GET" action="/meet">
+      <form className="grid gap-3" method="GET" action="/admin/meet">
         <input
           type="text"
           name="room_id"
