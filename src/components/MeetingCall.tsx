@@ -2,11 +2,11 @@
 
 import Daily, { DailyCall } from "@daily-co/daily-js";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-type Props = { 
-  roomId: string; 
-  role: "admin" | "participant"; 
+type Props = {
+  roomId: string;
+  role: "admin" | "participant";
   name?: string;
 };
 
@@ -31,8 +31,13 @@ const MeetingCall = ({ roomId, role, name }: Props) => {
             fps: 25,
             backgroundColor: "#FF1F2D3D",
             layout: {
-              preset: "default",
-              max_cam_streams: 5,
+              // preset: "default",
+              // max_cam_streams: 5,
+              preset: "custom",
+              composition_params: {
+                mode: "dominant",
+                "videoSettings.showParticipantLabels": true,
+              },
             },
           },
         }),
@@ -72,6 +77,19 @@ const MeetingCall = ({ roomId, role, name }: Props) => {
             height: "100%",
             border: "0",
           },
+          // customIntegrations: {
+          //   miro: {
+          //     controlledBy: "owners",
+          //     iconURL:
+          //       "https://cdn.glitch.global/fe2fb078-9d31-4e90-8e78-c9cda05cd705/miroIcon.png?v=1680080952367",
+          //     label: "Miro",
+          //     location: "main",
+          //     name: "miro",
+          //     shared: true,
+          //     allow: "fullscreen; clipboard-read; clipboard-write",
+          //     src: "https://miro.com/app/live-embed/uXjVPrAq36w=/?moveToViewport=-2043,-1039,4081,2023&embedId=660028222598",
+          //   },
+          // },
         });
 
         callRef.current = call;
@@ -82,7 +100,7 @@ const MeetingCall = ({ roomId, role, name }: Props) => {
         });
 
         const token = await createMeetingToken();
-        
+
         if (mounted) {
           await call.join({ token });
         }
